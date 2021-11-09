@@ -1,0 +1,19 @@
+---
+title: "Solving 'Module ... has no member...' in VS Code"
+date: 2019-11-11
+tags: ['snippets', 'vscode']
+summary: "Short note on how to remove the error messages like `Module 'cv2' has no '...' member` on VS Code."
+---
+
+<div className="text-center">![Example](/static/images/no-member_vs_code/example.webp)</div>{' '}
+
+In VS Code, open the setting.json file by pressing `ctrl+shift+p` to open the Command Palette and type "settings" in the text field. You should see "Preferences: Open Settings (JSON)".
+
+<div className="text-center">![Settings](/static/images/no-member_vs_code/settings.webp)</div>
+Then open `settings.json` and add: ```json "python.linting.pylintArgs": ["--generated-members=cv2.*"],
+``` With the libraries you're using. You can also use this argument when running pylint in the console:
+```bash pylint myscript.py --generated-members=numpy.* ``` Or creating a pylintrc file: ```bash pylint
+--generate-rcfile > .pylintrc ``` And then modifying the appropriate line: ```toml # List of members
+which are set dynamically and missed by pylint inference # system, and so shouldn't trigger E1101 when
+accessed. Python regular # expressions are accepted. generated-members=cv2.* ``` You can read the official
+documentation about this feature [there](http://pylint.pycqa.org/en/latest/technical_reference/features.html#typecheck-checker).
