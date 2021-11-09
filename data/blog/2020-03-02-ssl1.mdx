@@ -49,10 +49,9 @@ In the video, from a given frame, the network has to predict which pixels will m
 
 All architecture starts with a ResNet-101 v2 [7]. Block 4 of ResNet-101 is removed in order to save computation. Each task is computed in a "head" and the heads are directly coming after block 3.
 
-<div className="text-center">
-![Figure 1](/static/images/ssl1/figure1.png)
-
-The overall loss is the sum of the losses of the different tasks. The architecture is illustrated in figure 1.
+<div className="text-center">![Figure 1](/static/images/ssl1/figure1.png)</div>
+The overall loss is the sum of the losses of the different tasks. The architecture is illustrated in
+figure 1.
 
 ### 1.3. Lasso Separated Features Architecture
 
@@ -73,6 +72,7 @@ For object detection, the authors use Faster-RCNN [8] and [9] for depth predicti
 First, the self-supervised tasks are compared to each other. The results are given in Table 1. The authors' implementations are already slightly better due to better data augmentation and longer training.
 
 <div className="text-center">![Table 1](/static/images/ssl1/table1.png)</div>
+
 Overall we can notice that self-supervised tasks alone are all underperforming compared to regular supervised
 learning.
 
@@ -84,20 +84,24 @@ Figure 3 shows how the performance increases with the training time.
 Table 2 shows the results for combining self-supervised pre-training tasks.
 
 <div className="text-center">![Table 2](/static/images/ssl1/table2.png)</div>
+
 The pre-training appears to be the most efficient for PASCAL VOC with "only" ~4% under the pre-training
 on ImageNet. On the depth prediction task (NYU), only Relative Positioning seems enough to reach (and
 slightly over) the performance of the baseline.
 
 <div className="text-center">![Figure 4](/static/images/ssl1/figure4.png)</div>
+
 The figure 4 shows the effect of training time.
 
 ### 2.3. Comparison with the Lasso Architecture
 
 <div className="text-center">![Figure 5](/static/images/ssl1/figure5.png)</div>
+
 Figure 5 suggests that the final output space for the representation is still losing some information
 that’s useful for evaluation tasks.
 
 <div className="text-center">![Table 4](/static/images/ssl1/table4.png)</div>
+
 All the results are compiled in table 4. Using lasso performs slightly better than without. Also, it
 is interesting to notice that using the regularization in the evaluation task only performs better than
 for both pre-training and evaluation.
