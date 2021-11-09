@@ -1,0 +1,188 @@
+---
+title: 'Jetson Nano: Getting Started'
+date: 2019-08-03
+tags: ['edge computing', 'tutorial']
+summary: 'In this article, we are going to set up an NVIDIA Jetson Nano.'
+---
+
+<div className="text-center">
+  ![Jetson Nano](/static/images/jetson-nano-installation/overview.webp)
+</div>{' '}
+
+## 1. Introduction
+
+Nvidia describes their device as _"NVIDIA® Jetson Nano™ Developer Kit is a small, powerful computer that lets you run multiple neural networks in parallel for applications like image classification, object detection, segmentation, and speech processing. All in an easy-to-use platform that runs in as little as 5 watts"_.
+
+Here is the configuration of the device:
+
+|              |                              |
+| ------------ | ---------------------------- | ------------- | -------------------------- | --------------------------- |
+| CPU          | Quad-core ARM A57 @ 1.43 GHz |
+| GPU          | 128-core Maxwell             |
+| Memory       | 4 GB 64-bit LPDDR4 25.6 GB/s |
+| Storage      | microSD (you have to buy it) |
+| Video Encode | 4K @ 30                      | 4x 1080p @ 30 | 9x 720p @ 30 (H.264/H.265) |
+| Video Decode | 4K @ 60                      | 2x 4K @ 30    | 8x 1080p @ 30              | 18x 720p @ 30 (H.264/H.265) |
+| Camera       | 1x MIPI CSI-2 DPHY lanes     |
+| Connectivity | Gigabit Ethernet, M.2 Key E  |
+| Display      | HDMI 2.0 and eDP 1.4         |
+| USB          | 4x USB 3.0, USB 2.0 Micro-B  |
+| Others       | GPIO, I2C, I2S, SPI, UART    |
+| Dimensions   | 100 mm x 80 mm x 29 mm       |
+
+The CPU/GPU is a Tegra X1 SOC that is similar to what the Jetson X1 was using.
+Regarding the software stack, Nvidia developed NVIDIA JetPack SDK. It includes several tools like Cuda (for developing codes on Nvidia GPUs), cuDNN (optimized library to run deep neural networks on Nvidia GPUs), TensorRT (optimize TensorFlow/PyTorch neural networks models for inference on Nvidia GPUs), VisionWorks (various tools and computer vision examples) and NVIDIA L4T, the OS. L4T is based on Ubuntu 18.04, with a GUI that facilitates the visualizations.
+
+One difficult point that you might have is the lack of support for Docker. You will be able to run containers but the GPU is not easily accessible. They are working on it.
+
+## 2. Preparing the Hardware
+
+Let's start by looking at the hardware. For my use, I'm planning to run some deep learning models. On the Nvidia Jetson products family, you can use TensorRT to optimize your models.
+But it needs some memory to do this and the 4Gb memory of this device is quite tight. So I will create some swap. Also, I need to store the public dataset to run some tests.
+For those reasons, I choose a 128Gb sd card and an external HDD. The SOC
+
+Here is what I'm using:
+
+1. The **development kit** itself [https://developer.nvidia.com/embedded/jetson-nano-developer-kit](https://developer.nvidia.com/embedded/jetson-nano-developer-kit)
+2. Intel 8265 AC for the **Wifi** and Antenna Intel 7265 ngw (can also use the Ethernet port)
+3. A **fan** Noctua NF-A4X10-FLX 5V + Screws M3 x 12 mm (need 4) (optional)
+4. A Raspberry pi **power supply** (you might reach some power limitations, see note below)
+5. Samsung EVO Plus micro **SDHC Card** 128 Gb (cat 3, for faster writings/readings)
+
+Adding to this, you will need also the regular **(USB) mouse, keyboard, and HDMI cable** to plug the device into a display (that you need also...).
+
+This fan is quite hard to install and you will have to reverse it (see pictures in the introduction). Which exposes the blades... But it keeps the heat sink very cool.
+
+### Notes
+
+- I had some issues with the mini-USB power supply. In this setting, the Jetson is not able to provide enough power to the USB ports. There are 2 solutions: switching to the 5W power mode (explained in this article in "4. After Installation") or using the jack power connector.  
+  In this case you will need:  
+  4a. **Universal AC adapter 4A 5V**  
+  4b. **1 Jumper 2.54mm on "J48" to switch the power**
+
+<div className="text-center">
+  ![Jumper on J48](/static/images/jetson-nano-installation/jetson_jack_power_2.webp)
+</div>{' '}
+
+- The Jetson Nano has a MIPI CSI camera connector. So it means you can buy a regular "raspberry pi camera" and it will work.
+
+## 3. Preparing the Software
+
+Now your hardware is set. You have to download the JetPack SDK (5.2Gb): [JetPack](https://developer.nvidia.com/embedded/jetpack)
+
+Once the download is finished, Nvidia recommends a nice tool: BalenaEtcher. This tool allows you to write the JetPack SDK on your SD card very easily.
+
+You can download Etcher on their website: [balenaEtcher - Home](https://www.balena.io/etcher/)
+
+If you're using a Debian-based OS, you can check on their github[1].
+
+1. Add Etcher to your repositories:
+
+```bash
+echo "deb https://deb.etcher.io stable etcher" | sudo tee /etc/apt/sources.list.d/balena-etcher.list
+```
+
+2. Trust [Bintray.com](http://bintray.com/)'s GPG key:
+
+```bash
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61
+```
+
+3. Update and install:
+
+```bash
+sudo apt-get update
+sudo apt-get install balena-etcher-electron
+```
+
+Once Ether is installed on your system, you can insert your SD card in your reader and start writing the JetPack image you just downloaded:
+
+<div className="text-center">
+  ![Jumper on J48](/static/images/jetson-nano-installation/etcher_1.png)
+</div>
+Figure 1: Click on `Select image` to load the JetPack zip file you just downloaded
+
+<div className="text-center">
+  ![Jumper on J48](/static/images/jetson-nano-installation/etcher_2.png)
+</div>
+Figure 2: You don't have to extract the archive. Load it as it is.
+
+<div className="text-center">
+  ![Jumper on J48](/static/images/jetson-nano-installation/etcher_3.png)
+</div>
+Figure 3: Make sure the device on which the image will be written is your SD card by clicking on `Change`.
+Here I'm using a 16Gb but my Jetson Nano is running on a 128Gb.
+
+<div className="text-center">
+  ![Jumper on J48](/static/images/jetson-nano-installation/etcher_4.png)
+</div>
+Figure 4: Here you can confirm that this is our SD card. Click on `Continue`. Then click on `Flash` to
+start writing the files.
+
+<div className="text-center">
+  ![Jumper on J48](/static/images/jetson-nano-installation/ether_5.png)
+</div>
+Figure 5: Now you just have to wait.
+
+Once it's finished, you can insert your SD card into the Jetson Nano slot. It can be a bit tricky to find it. Figure 6 is showing it.
+
+<div className="text-center">
+  ![Jumper on J48](/static/images/jetson-nano-installation/jetson_nano_sdcard_slot.webp)
+</div>
+Figure 6. You can find the SD card reader under the heat-sink.
+
+You're now all set. You can plug the HDMI cable, your mouse, keyboard, and finally the power supply (mini-sub in my case). Once your device is running and everything loaded correctly, you will be asked a few questions:
+
+1. Review and accept NVIDIA Jetson software EULA
+2. Select system language, keyboard layout, WiFi, and time zone
+3. Create a username, password, and computer name
+4. Wait about 3min30 for installation
+5. Log in
+
+Before starting anything, it might be good to update everything:
+
+```bash
+    sudo apt update
+```
+
+## 4. After Installation
+
+There are a few things you might want to set up before starting to play with the device. I'm listing my own here.
+
+- Switching the Jetson 5W power mode:
+
+```bash
+sudo nvpmodel -m 1
+```
+
+- 10W (default and higher performance):
+
+```bash
+sudo nvpmodel -m 0
+```
+
+- Setting `python 3` as the default version:
+
+```bash
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+```
+
+- Installing `pip`:
+
+```bash
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+```
+
+```bash
+python get-pip.py
+```
+
+- And `pipenv`:
+
+```bash
+pip install pipenv
+```
+
+## References
+
+[1] Install Etcher on debian based OS: [balena-io/etcher](https://github.com/balena-io/etcher#debian-and-ubuntu-based-package-repository-gnulinux-x86x64)

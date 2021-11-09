@@ -1,0 +1,117 @@
+---
+title: 'Installing TensorFlow with Anaconda for your GPU'
+date: 2019-10-08
+tags: ['snippets', 'tensorflow']
+summary: "I had some trouble using TensorFlow 2.0 with my GPU without using Docker. Sometimes my cuda version is not compatible with the TensorFlow build, other times it's about cudnn ... Using Anaconda makes your life easier!"
+---
+
+When creating an environment with Anaconda, the key is to install cuda and cudnn **before** TensorFlow.
+
+But let's first set a virtual environment using Anaconda:
+
+```bash
+conda create --name my_env python=3.7
+```
+
+Then when it's finished, you can install the package `cudatoolkit` and `cudnn` from conda directly. But first, be sure you download the right version! TensorFlow builds are compatible with specific cuda versions. In my case, TensorFlow 2.0 is compatible with cuda 10.0 so I have to install this specific version.
+
+You can check which version and which build is available:
+
+```bash
+conda search cudatoolkit
+                                                                                                                                                                        Loading channels: done
+# Name                       Version           Build  Channel
+cudatoolkit                      9.0      h13b8566_0  pkgs/main
+cudatoolkit                      9.2               0  pkgs/main
+cudatoolkit                 10.0.130               0  pkgs/main
+cudatoolkit                 10.1.168               0  pkgs/main
+```
+
+As we can see cuda 10.0 is available. Now let's take a loot at cudnn :
+
+```bash
+conda search cudnn
+
+Loading channels: done
+# Name                       Version           Build  Channel
+cudnn                          7.0.5       cuda8.0_0  pkgs/main
+cudnn                          7.1.2       cuda9.0_0  pkgs/main
+cudnn                          7.1.3       cuda8.0_0  pkgs/main
+cudnn                          7.2.1       cuda9.2_0  pkgs/main
+cudnn                          7.3.1      cuda10.0_0  pkgs/main
+cudnn                          7.3.1       cuda9.0_0  pkgs/main
+cudnn                          7.3.1       cuda9.2_0  pkgs/main
+cudnn                          7.6.0      cuda10.0_0  pkgs/main
+cudnn                          7.6.0      cuda10.1_0  pkgs/main
+cudnn                          7.6.0       cuda9.0_0  pkgs/main
+cudnn                          7.6.0       cuda9.2_0  pkgs/main
+```
+
+Here you can see there is version 7.6.0 for cuda 10.0. So we can install those packages:
+
+```bash
+conda install cudatoolkit=10.0.130
+```
+
+And:
+
+```bash
+conda install cudnn=7.6.0=cuda10.0_0
+```
+
+Then you can install TensorFlow:
+
+```bash
+pip install --upgrade tensorflow-gpu
+```
+
+Finally, to make sure everything works correctly, in your conda environment, you can run:
+
+```bash
+python
+Python 3.7.3 (default, Mar 27 2019, 22:11:17)
+[GCC 7.3.0] :: Anaconda, Inc. on linux
+Type "help", "copyright", "credits" or "license" for more information.
+```
+
+Make sure the output looks similar.
+
+Then:
+
+```python
+>>> import tensorflow as tf
+>>> tf.__version__
+'2.0.0'
+>>> print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
+2019-10-08 15:45:03.417190: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2019-10-08 15:45:03.425485: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:1006] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-10-08 15:45:03.425762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties:
+name: GeForce GTX 1050 Ti with Max-Q Design major: 6 minor: 1 memoryClockRate(GHz): 1.4175
+pciBusID: 0000:01:00.0
+2019-10-08 15:45:03.426297: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.0
+2019-10-08 15:45:03.428300: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0
+2019-10-08 15:45:03.429670: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10.0
+2019-10-08 15:45:03.430822: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10.0
+2019-10-08 15:45:03.433016: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10.0
+2019-10-08 15:45:03.434727: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10.0
+2019-10-08 15:45:03.439178: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2019-10-08 15:45:03.439337: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:1006] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-10-08 15:45:03.439606: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:1006] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-10-08 15:45:03.439772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+Num GPUs Available:  1
+```
+
+And you can also run this small snippet from tensorflow.org to be sure:
+
+```python
+tf.debugging.set_log_device_placement(True)
+
+# Create some tensors
+a = tf.constant([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+b = tf.constant([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
+c = tf.matmul(a, b)
+
+print(c)
+```
+
+If the code is running without any errors, your GPU is ready to work hard!
