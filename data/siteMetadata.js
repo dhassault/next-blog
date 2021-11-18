@@ -1,13 +1,13 @@
 const siteMetadata = {
-  title: 'Stochasticity and Chaos',
+  title: 'Stochasticity & Chaos',
   author: 'Yann Le Guilly',
-  headerTitle: '',
+  headerTitle: 'Stochasticity & Chaos',
   description: 'Software Engineering & Entrepreneurship.',
   language: 'en-us',
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://www.yannlg.tech',
+  siteRepo: 'https://github.com/dhassault/next-blog',
   siteLogo: '',
-  image: '/static/images/avatar.png',
+  image: '/static/images/yann_pic.png',
   socialBanner: '/static/images/twitter-card.png',
   github: 'https://github.com/dhassault',
   twitter: 'https://twitter.com/yannlg_',
@@ -17,12 +17,12 @@ const siteMetadata = {
     // supports plausible, simpleAnalytics or googleAnalytics
     plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
     simpleAnalytics: false, // true or false
-    googleAnalyticsId: '', // e.g. UA-000000-2 or G-XXXXXXX
+    googleAnalyticsId: 'G-4P1SBWGR6Z', // e.g. UA-000000-2 or G-XXXXXXX
   },
   newsletter: {
     // supports mailchimp, buttondown, convertkit
     // Please add your .env file and modify it according to your selection
-    provider: 'buttondown',
+    provider: '',
   },
   comment: {
     // Select a provider and use the environment variables associated to it

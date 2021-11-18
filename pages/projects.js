@@ -13,15 +13,16 @@ export default function Projects() {
             Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Showcase your projects with a hero image (16 x 9)
+            The products I'm building.
           </p>
         </div>
         <div className="container py-12">
-          <div className="flex flex-wrap -m-4">
+          <div className="flex flex-wrap">
             {projectsData.map((d) => (
               <Card
                 key={d.title}
                 title={d.title}
+                position={d.position}
                 description={d.description}
                 imgSrc={d.imgSrc}
                 href={d.href}

@@ -1,20 +1,18 @@
 const projectsData = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.google.com',
+    title: 'zeteoh, Inc.',
+    position: 'Co-founder/CEO',
+    description: `We noticed that mobile games using physical activities are two types: Pokemon go style using GPS, and others using a step counter. Users are craving for more, but the technology is limiting. So we created a tool using AI which detects several types of activities. It empowers game creators to provide more immersive experiences to players. We also offer this technology to insurance companies. Together, we will encourage millions of people to exercise.`,
+    imgSrc: '/static/images/zeteoh-logo.webp',
+    href: 'https://www.zeteoh.com',
   },
-  {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten handphones with this simple yet affordable solution.`,
-    imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
-  },
+  // {
+  //   title: 'Kaepler',
+  //   position: 'Co-founder'
+  //   description: `We provide a variety of feature extractors, pre-trained on high-quality datasets that were curated for specific use cases to ensure the highest performance for your applications. The state-of-the-art performance models become accessible using 90% less annotated data.`,
+  //   imgSrc: '/static/images/time-machine.jpg',
+  //   href: '/blog/the-time-machine',
+  // },
 ]
 
 export default projectsData
