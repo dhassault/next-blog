@@ -1,7 +1,7 @@
 const siteMetadata = {
-  title: 'Stochasticity and Chaos',
+  title: 'Stochasticity & Chaos',
   author: 'Yann Le Guilly',
-  headerTitle: '',
+  headerTitle: 'Stochasticity & Chaos',
   description: 'Software Engineering & Entrepreneurship.',
   language: 'en-us',
   siteUrl: 'https://www.yannlg.tech',

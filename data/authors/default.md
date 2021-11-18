@@ -15,15 +15,14 @@ github: https://github.com/dhassault
 
 ### Co-founder at zeteoh
 
-Using physical activities in your mobile games can drastically increase your player engagement. But we believe this type of game should not be restricted to PokemonGO style, fitness, or healthcare. By leveraging AI models, our SDK unlocks a whole new world of possibilities for game creators without any design constraints. Developing highly engaging and unique games becomes faster and less risky.
+We noticed that mobile games using physical activities are two types:
+Pokemon go style using GPS, and others using a step counter. Users are craving for more but the technology is limiting. So we created a tool using AI which detects several types of activities. It empowers game creators to provide more immersive experiences to players. This can affect millions of people's life positively by encouraging them to exercise more.
 
 🤔 Imagine an RPG🎮 on your phone📲, you would have to walk, climb stairs, run🏃‍♀️, etc, to increase your character’s level💪! And running with your friends🏃🏽‍♂️🏃🏽‍♂️🏃‍♀️ would allow you to increase even faster📈 to clear a dungeon 🦑 and be the best in your area🌇 A kind of PokemonGO but focused on daily physical activities instead of the map!
 
-This will affect millions of people's life positively by encouraging them to exercise more! Including myself 😀
+We are also looking for providing our technology to insurance companies.
 
-### Co-founder at Kaepler
-
-In almost all the AI-based projects I was involved in, it was impossible to collect, annotate and train machine learning models as we should. Engineers mostly use pre-trained models found on the internet and just fine-tuned with a small and often low-quality dataset. The idea of Kaepler is to provide high-quality pre-trained models on specific tasks. By doing so, companies can skip the painful data collection and annotation part and directly focus on product development.
+This will affect millions of people's life positively by encouraging them to exercise! Including myself 😀
 
 ## Previous positions
 
