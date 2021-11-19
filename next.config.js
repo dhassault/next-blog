@@ -14,8 +14,9 @@ module.exports = withPWA(
     },
     pwa: {
       dest: 'public',
+      register: true,
       runtimeCaching,
-      disable: isDevelopment,
+      //disable: isDevelopment,
       mode: 'production',
     },
     webpack: (config, { dev, isServer }) => {
