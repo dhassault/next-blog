@@ -14,7 +14,10 @@ export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider attribute="class">
       <Head>
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
       </Head>
       {isDevelopment && <ClientReload />}
       <Analytics />
