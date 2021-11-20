@@ -14,7 +14,9 @@ module.exports = withPWA(
     },
     pwa: {
       dest: 'public',
+      skipWaiting: true,
       runtimeCaching,
+      register: true,
       disable: isDevelopment,
       mode: 'production',
     },
