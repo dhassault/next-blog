@@ -30,7 +30,9 @@ const Comments = ({ frontMatter }) => {
       term = frontMatter.slug
       break
     case 'url':
-      term = window.location.href
+      if (typeof window !== 'undefined') {
+        term = window.location.href
+      }
       break
     case 'title':
       term = frontMatter.title
