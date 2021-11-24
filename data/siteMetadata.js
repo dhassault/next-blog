@@ -8,6 +8,7 @@ const siteMetadata = {
   siteRepo: 'https://github.com/dhassault/next-blog',
   siteLogo: '',
   image: '/static/images/yann_pic.png',
+  email: 'yann@zeteoh.com',
   socialBanner: '/static/images/twitter-card.png',
   github: 'https://github.com/dhassault',
   twitter: 'https://twitter.com/yannlg_',
