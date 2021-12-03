@@ -9,7 +9,7 @@ const siteMetadata = {
   siteLogo: '',
   image: '/static/images/yann_pic.png',
   email: 'yann@zeteoh.com',
-  socialBanner: '/static/images/twitter-card-full.png',
+  socialBanner: '/static/images/twitter-card.png',
   github: 'https://github.com/dhassault',
   twitter: 'https://twitter.com/yannlg_',
   linkedin: 'https://www.linkedin.com/in/yannleguilly/',
