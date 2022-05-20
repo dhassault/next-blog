@@ -5,7 +5,7 @@ const APP_DESCRIPTION = 'This is an example of using next-pwa plugin'
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" className="scroll-smooth">
         <Head>
           <link rel="manifest" href="manifest.json" />
           <link rel="shortcut icon" href="/static/favicons/favicon.ico" />
@@ -22,6 +22,7 @@ class MyDocument extends Document {
             sizes="16x16"
             href="/static/favicons/favicon-16x16.png"
           />
+          <link rel="manifest" href="/static/favicons/site.webmanifest" />
           <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#5bbad5" />
           <meta name="msapplication-TileColor" content="#000000" />
           <meta name="theme-color" content="#000000" />
@@ -46,7 +47,7 @@ class MyDocument extends Document {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#FFFFFF" />
         </Head>
-        <body className="antialiased text-black bg-white dark:bg-black dark:text-white">
+        <body className="bg-white text-black antialiased dark:bg-black dark:text-white">
           <Main />
           <NextScript />
         </body>

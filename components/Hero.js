@@ -4,11 +4,11 @@ import PageTitle from './PageTitle'
 
 export default function Hero() {
   return (
-    <div className="flex flex-col justify-around w-full h-screen sm:h-content-sm ">
-      <h1 className="my-28 sm:my-10 text-center select-none text-5xl sm:text-6xl leading-none tracking-tightest font-extrabold">
+    <div className="sm:h-content-sm flex h-screen w-full flex-col justify-around ">
+      <h1 className="tracking-tightest my-28 select-none text-center text-5xl font-extrabold leading-none sm:my-10 sm:text-6xl">
         <span
           data-content="Stochasticity & Chaos"
-          className="relative block before:content-[attr(data-content)] dark:before:content-[attr(data-content)] before:w-full before:block before:absolute before:top-0 before:bottom-0 before:left-0 before:px-2 before:text-center before:text-black dark:before:text-white before:animate-gradient-background-1"
+          className="before:animate-gradient-background-1 relative block before:absolute before:top-0 before:bottom-0 before:left-0 before:block before:w-full before:px-2 before:text-center before:text-black before:content-[attr(data-content)] dark:before:text-white dark:before:content-[attr(data-content)]"
         ></span>
       </h1>
       <div className="space-y-2 md:space-y-5">
@@ -18,7 +18,7 @@ export default function Hero() {
             🤙
           </span>
         </PageTitle>
-        <p className="text-lg leading-7 prose text-gray-500 max-w-none dark:text-gray-400">
+        <p className="prose max-w-none text-lg leading-7 text-gray-500 dark:text-gray-400">
           I am a machine learning engineer and entrepreneur.{' '}
           <Link href={`mailto:${siteMetadata.email}`}>
             <a
