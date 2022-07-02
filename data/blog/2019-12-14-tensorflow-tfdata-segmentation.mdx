@@ -5,7 +5,7 @@ tags: ['tutorial', 'TensorFlow', 'semantic segmentation']
 summary: "In this article, I'm going to cover the usage of TensorFlow 2 and tf.data on a popular semantic segmentation 2D images dataset: ADE20K. This code is now runnable on colab."
 ---
 
-<div className="text-center">![](/img/tf-data-2/ade20k.png)</div>
+<div className="text-center">![](/static/images/tf-data-2/ade20k.png)</div>
 
 The code is available on Google Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dhassault/tf-semantic-example/blob/master/01b_semantic_segmentation_basic_colab.ipynb)
 
@@ -322,7 +322,7 @@ for image, mask in dataset['train'].take(1):
 display_sample([sample_image[0], sample_mask[0]])
 ```
 
-![png](/img/tf-data-2/output_24_0.png)
+![png](/static/images/tf-data-2/output_24_0.png)
 
 The dimensions are the ones we expect and it shows up properly. We can start the development of the model itself.
 
@@ -335,7 +335,7 @@ This architecture was introduced in the paper **U-Net: Convolutional Networks fo
 You can also read my notes on this paper here: https://yann-leguilly.gitlab.io/post/2019-12-11-unet-biomedical-images/  
 We are going to reproduce this:
 
-![figure 1](https://yann-leguilly.gitlab.io/img/unet_1/figure_1.png)
+![figure 1](/static/images/unet_1/figure_1.png)
 
 ### 5.1. Implementation
 
