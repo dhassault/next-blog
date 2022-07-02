@@ -1,0 +1,41 @@
+---
+title: Setting up the cache on Github Actions and Poetry
+date: 2022-06-02
+tags: ['snippets', 'python', 'cicd']
+summary: 'Set up the cache in your Github Actions workflows and poetry.'
+---
+
+![](/static/images/github_actions_poetry_cache/github_actions_poetry_and_cache.png)
+
+# Introduction
+
+Github actions was [released in 2019](https://github.blog/2019-08-08-github-actions-now-supports-ci-cd/#:~:text=We%20hope%20you'll%20try,to%20hear%20what%20you%20think!) aiming at providing a new tool to build your [CI/CD pipeline](https://en.wikipedia.org/wiki/CI/CD). You can leverage the cache to accelerate your pipelines and decrease your bill. Let’s see how to do this when using `python` and `poetry`.
+
+# Before
+
+So far I was installing `poetry` with [abatilo/actions-poetry](https://github.com/abatilo/actions-poetry) and then setting up the cache manually using [actions/cache](https://github.com/actions/cache). That was not straightforward to set up, especially when you have to test in the CI directly. Using https://github.com/nektos/act to run Github actions locally helped marginally. But I just noticed that an official action was released to do the same thing simpler.
+
+# Updated Version
+
+By using [actions/setup-python@v4](https://github.com/actions/setup-python). It implements its caching logic and is compatible with `poetry`. But when I tried it first, it didn’t work. I’m using the following `poetry.toml` to standardize `poetry`'s behavior among the team:
+
+```text
+[cache]
+cache-dir = "./.cache/"
+[virtualenvs]
+create = true
+in-project = true
+```
+
+This caused https://github.com/actions/setup-python not to be able to find the `.venv`. I could solve it by forcing the config before running the `poetry install` command:
+
+```yaml
+- name: Install dependencies
+  uses: actions/setup-python@v4
+  with:
+    python-version: 3.9
+    cache: 'poetry'
+- run: poetry config virtualenvs.in-project false && poetry install
+```
+
+The whole workflow is available [here](https://gist.github.com/dhassault/1bd6b16dba0879107846c51b00d62ac6).
