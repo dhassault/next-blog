@@ -1,0 +1,59 @@
+---
+title: 'Using Cython with Poetry'
+date: 2022-07-23
+tags: ['snippets', 'python']
+summary: 'Recently I had to convert a python code base into `Cython` binaries. Because we are using `poetry`, it was not straight forward. Here is the process to do it step by step.
+'
+---
+
+# Introduction
+
+Recently I had to convert a python code base into `Cython` binaries. Because we are using `poetry`, it was not straight forward. Here is the process to do it step by step.
+You can see a sample of a complete working codebase directly here: https://github.com/dhassault/cython_with_poetry
+
+From this point, I assume you have an existing python codebase and you’re using `poetry`.
+
+# Create a `build.py`
+
+In your root directory, you’re going to create a `[build.py](http://build.py)` file. This script will replace `[setup.py](http://setup.py)` that you would normally write with `Cython`.
+
+The one I’m using for the sample package is the following:
+
+```python
+from Cython.Build import cythonize
+
+exclude_list = [
+    "sample_package/excluded_module/**",
+]
+compiler_directives = {"language_level": 3, "embedsignature": True}
+
+def build(setup_kwargs):
+    setup_kwargs.update(
+        {
+            "name": "sample-package",
+            "package": ["sample-package"],
+            # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#cythonize-arguments
+            "ext_modules": cythonize(
+                module_list="sample_package/**/*.py",
+                exclude=exclude_list,
+                compiler_directives=compiler_directives,
+                nthreads=5,
+            ),
+        }
+    )
+```
+
+It’s quite straight forward, I added some useful arguments for the example.
+
+# Modify your `pyproject.toml`
+
+The second step is to modify your `pyproject.toml` by adding two things:
+
+- In `[tool.poetry]`, add `build = "[build.py](http://build.py/)"`
+- In `[build-system]` > `requires = ["poetry-core>=1.0.0", "setuptools>=62.6.0", "Cython>=0.29.30"]` adapted to your codebase
+
+# Build
+
+Everything is ready, you just have to install your package as usual: `poetry install`. You will see different generated files appearing like `....c` and `....so` .
+
+![terminal screenshot](/static/images/cython-with-poetry/terminal_screen.png)
